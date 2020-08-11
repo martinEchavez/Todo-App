@@ -1,23 +1,21 @@
 import React, { useReducer, useEffect } from 'react';
 import { todoReducer } from '../../reducer/todoReducer';
-import { useForm } from '../../Hooks/useForm';
+import TodoList from './TodoList';
+import TodoApp from './TodoApp';
 import '../../css/style.css';
 
+// Estado inicial del la aplicación
 const init = () => {
     return JSON.parse(localStorage.getItem('todos')) || []
 }
 
 const Dashboard = () => {
-
+    // Reducer alternativo al useState
     const [todos, dispatch] = useReducer(todoReducer, [], init);
 
-    const [{title, description, state}, handleInputChange, reset] = useForm({
-        title: '',
-        description: '',
-        state: false
-    })
-
+    // Se ejecuta cada vez que se presenta un cambio en las tareas
     useEffect(() => {
+        // Se Almacenan los datos en localStorage
         localStorage.setItem('todos', JSON.stringify(todos))
     }, [todos])
 
@@ -28,6 +26,7 @@ const Dashboard = () => {
         });
     }
 
+    // Se cambia el estado de la tarea
     const handleToggle = (id) => {
         dispatch({
             type: 'toggle',
@@ -35,87 +34,28 @@ const Dashboard = () => {
         })
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const newTodo = {
-            id: new Date().getTime(),
-            title,
-            description,
-            done: state
-        }
+    // Recibe los datos para agregar una tarea
+    const handleAddTodo = (newTodo) => {
         dispatch({
             type: 'add',
             payload: newTodo
         });
-        reset();
     }
 
     return (
         <div className="container">
             <div className="row">
                 <div className="col-md-4">
-                    <div className="card mt-2">
-                        <div className="card-header"> <h4>Ingresa la tarea</h4></div>
-                        <div className="card-body">
-                            <form onSubmit={handleSubmit}>
-                                <div className="form-group">
-                                    <input
-                                        autoComplete="off"
-                                        className="form-control"
-                                        name="title"
-                                        onChange={handleInputChange}
-                                        placeholder="Título"
-                                        type="text"
-                                        value={title}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <textarea
-                                        autoComplete="off"
-                                        className="form-control"
-                                        name="description"
-                                        onChange={handleInputChange}
-                                        rows="3"
-                                        placeholder="Descripción"
-                                        value={description}
-                                    ></textarea>
-                                </div>
-                                <div className="form-group form-check">
-                                    <input
-                                        checked={state}
-                                        className="form-check-input"
-                                        name="state"
-                                        onChange={handleInputChange}
-                                        type="checkbox"
-                                    />
-                                    <label className="form-check-label">Estado</label>
-                                </div>
-                                <button type="submit" className="btn btn-block btn-primary">Guardar</button>
-                            </form>
-                        </div>
-                    </div>
+                    <TodoApp
+                        handleAddTodo={handleAddTodo}
+                    />
                 </div>
                 <div className="col-md-8">
-                    {
-                        todos.map(todo => (
-                            <div className="card mt-2" key={todo.id}>
-                                <div className="card-header d-flex justify-content-between">
-                                    <h4>{todo.title}</h4>
-                                    <button
-                                        className="btn btn-danger offset"
-                                        onClick={() => handleDelete(todo.id)}
-                                    >X</button>
-                                </div>
-                                <div className="card-body d-flex justify-content-between">
-                                    <p className={`${todo.done && 'complete'}`}> {todo.description} </p>
-                                    <button
-                                        className="btn btn-success"
-                                        onClick={() => handleToggle(todo.id)}
-                                    >Y</button>
-                                </div>
-                            </div>
-                        ))
-                    }
+                    <TodoList
+                        todos={todos}
+                        handleDelete={handleDelete}
+                        handleToggle={handleToggle}
+                    />
                 </div>
             </div>
         </div>
