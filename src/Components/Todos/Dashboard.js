@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect } from 'react';
 import { todoReducer } from '../../reducer/todoReducer';
 import { useForm } from '../../Hooks/useForm';
+import '../../css/style.css';
 
 const init = () => {
     return JSON.parse(localStorage.getItem('todos')) || []
@@ -17,8 +18,22 @@ const Dashboard = () => {
     })
 
     useEffect(() => {
-        localStorage.setItem('Todos', JSON.stringify(todos))
+        localStorage.setItem('todos', JSON.stringify(todos))
     }, [todos])
+
+    const handleDelete = (id) => {
+        dispatch({
+            type: 'delete',
+            payload: id
+        });
+    }
+
+    const handleToggle = (id) => {
+        dispatch({
+            type: 'toggle',
+            payload: id
+        })
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,12 +43,10 @@ const Dashboard = () => {
             description,
             done: state
         }
-
-        const action = {
+        dispatch({
             type: 'add',
             payload: newTodo
-        }
-        dispatch(action);
+        });
         reset();
     }
 
@@ -88,11 +101,17 @@ const Dashboard = () => {
                             <div className="card mt-2" key={todo.id}>
                                 <div className="card-header d-flex justify-content-between">
                                     <h4>{todo.title}</h4>
-                                    <button className="btn btn-danger offset">X</button>
+                                    <button
+                                        className="btn btn-danger offset"
+                                        onClick={() => handleDelete(todo.id)}
+                                    >X</button>
                                 </div>
                                 <div className="card-body d-flex justify-content-between">
-                                    <p> {todo.description} </p>
-                                    <button className="btn btn-success">Y</button>
+                                    <p className={`${todo.done && 'complete'}`}> {todo.description} </p>
+                                    <button
+                                        className="btn btn-success"
+                                        onClick={() => handleToggle(todo.id)}
+                                    >Y</button>
                                 </div>
                             </div>
                         ))
