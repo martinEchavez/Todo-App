@@ -5,7 +5,7 @@ const Navbar = () => {
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <Link className="navbar-brand" to="/">
-                <img src="" width="30" height="30" className="d-inline-block align-top" alt="Wombats" loading="lazy" />
+                <img src="https://raw.githubusercontent.com/martinEchavez/Todo-App/master/src/img/Wombat.png" width="30" height="30" className="d-inline-block align-top" alt="Wombats" loading="lazy" />
                 Wombats
             </Link>
         </nav>
