@@ -9,7 +9,7 @@ const init = () => {
     return JSON.parse(localStorage.getItem('todos')) || []
 }
 
-const Dashboard = () => {
+const Todos = () => {
     // Reducer alternativo al useState
     const [todos, dispatch] = useReducer(todoReducer, [], init);
 
@@ -62,4 +62,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Todos;

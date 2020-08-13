@@ -1,16 +1,23 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import Navbar from './Components/Navbar'
-import Dashboard from './Components/Todos/Dashboard';
+import Todos from './Components/Todos';
+import Home from './Components/Home';
+import Finanzas from './Components/Finanzas';
 
 const App = () => {
 
   return (
     <Router>
-      {/* Navegación */}
-      <Navbar />
-      {/* Componentes por URL */}
-      <Route path="/" exact component={Dashboard} />
+      <div>
+        <Navbar />
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/todos" component={Todos} />
+          <Route exact path="/finanzas" component={Finanzas} />
+          <Redirect to="/" />{/**Si no encuentra la ruta redirecciona al home*/}
+        </Switch>
+      </div>
     </Router>
   );
 };

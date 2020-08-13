@@ -7,7 +7,7 @@ const TodoListItem = ({ todo, handleDelete, handleToggle }) => {
             <div className="card-header d-flex justify-content-between">
                 <h4>{todo.title}</h4>
                 <Link
-                    style={{color: 'Tomato'}}
+                    style={{ color: 'Tomato' }}
                     to="#"
                     onClick={() => handleDelete(todo.id)}
                 >
@@ -17,7 +17,7 @@ const TodoListItem = ({ todo, handleDelete, handleToggle }) => {
             <div className="card-body d-flex justify-content-between">
                 <p className={`${todo.done && 'complete'}`}> {todo.description} </p>
                 <Link
-                    style={{color: 'green'}}
+                    style={{ color: 'green' }}
                     to="#"
                     onClick={() => handleToggle(todo.id)}
                 >
